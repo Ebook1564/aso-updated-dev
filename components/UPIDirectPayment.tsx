@@ -41,12 +41,7 @@ const UPI_CONFIG = {
   note: "Audit Protocol Fee",
 };
 
-const UPI_PLATFORMS = [
-  { id: "gpay", name: "Google Pay", desc: "Fast & Secure", color: "#4285F4", icon: "G" },
-  { id: "phonepe", name: "PhonePe", desc: "Reliable Transfer", color: "#6739B7", icon: "P" },
-  { id: "paytm", name: "Paytm", desc: "Instant Gateway", color: "#00BAF2", icon: "Py" },
-  { id: "bhim", name: "BHIM UPI", desc: "NPCI Standard", color: "#E55425", icon: "B" },
-];
+// Removed UPI_PLATFORMS implementation to simplify flow to direct QR code.
 
 export default function UPIDirectPayment({
   amount,
@@ -57,7 +52,7 @@ export default function UPIDirectPayment({
   onPaymentSuccess
 }: UPIDirectPaymentProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [step, setStep] = useState<"SELECT" | "QR" | "INTENT_PROMPT" | "VERIFY" | "PROCESSING" | "SUCCESS">("SELECT");
+  const [step, setStep] = useState<"QR" | "VERIFY" | "PROCESSING" | "SUCCESS">("QR");
   const [utr, setUtr] = useState("");
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -73,14 +68,7 @@ export default function UPIDirectPayment({
     return `upi://pay?pa=${UPI_CONFIG.vpa}&pn=${encodeURIComponent(UPI_CONFIG.name)}&am=${displayAmount}&cu=INR&tn=${encodeURIComponent(`${UPI_CONFIG.note} - ${itemId}`)}`;
   }, [displayAmount, itemId]);
 
-  const handlePlatformClick = (id: string) => {
-    let intentUrl = upiUrl;
-    if (id === "phonepe") intentUrl = upiUrl.replace("upi://", "phonepe://");
-    if (id === "paytm") intentUrl = upiUrl.replace("upi://", "paytmmp://ce");
-    
-    window.location.href = intentUrl;
-    setStep("INTENT_PROMPT");
-  };
+  // Removed handlePlatformClick as it is no longer used for direct QR flow.
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -135,7 +123,7 @@ export default function UPIDirectPayment({
           // Auto close after showing the success tick
           setTimeout(() => {
             setIsOpen(false);
-            setTimeout(() => setStep("SELECT"), 500);
+            setTimeout(() => setStep("QR"), 500);
           }, 4000);
         } else {
           alert("ERROR: Protocol rejection. " + (data.error || "Check UTR."));
@@ -221,59 +209,7 @@ export default function UPIDirectPayment({
             {/* Content Area */}
             <div className={`p-8 ${step === 'SUCCESS' || step === 'PROCESSING' ? 'min-h-[400px] flex items-center justify-center' : 'max-h-[60vh] overflow-y-auto custom-scrollbar'}`}>
               
-              {step === "SELECT" && (
-                <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="grid grid-cols-1 gap-2.5">
-                    {UPI_PLATFORMS.map((platform) => (
-                      <button
-                        key={platform.id}
-                        onClick={() => handlePlatformClick(platform.id)}
-                        className="w-full p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.08] hover:border-white/20 transition-all flex items-center justify-between group"
-                      >
-                        <div className="flex items-center gap-4">
-                          <div 
-                            className="w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl font-black shadow-lg"
-                            style={{ backgroundColor: platform.color }}
-                          >
-                            {platform.icon}
-                          </div>
-                          <div className="text-left">
-                            <p className="text-sm font-black text-slate-200 uppercase tracking-widest group-hover:text-white transition-colors">{platform.name}</p>
-                            <p className="text-[9px] text-slate-500 font-mono uppercase tracking-tight">{platform.desc}</p>
-                          </div>
-                        </div>
-                        <ChevronRight size={18} className="text-slate-800 group-hover:text-cyan-500 transition-all group-hover:translate-x-1" />
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="pt-4 grid grid-cols-2 gap-3">
-                    <button onClick={() => setStep("QR")} className="flex items-center justify-center gap-2.5 p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all text-slate-400 font-black uppercase text-[9px] tracking-widest">
-                      <QrCode size={16} /> QR Code
-                    </button>
-                    <button onClick={() => setStep("VERIFY")} className="flex items-center justify-center gap-2.5 p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all text-slate-400 font-black uppercase text-[9px] tracking-widest">
-                      <History size={16} /> Already Paid
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {step === "INTENT_PROMPT" && (
-                <div className="text-center py-6 animate-in fade-in zoom-in duration-500">
-                    <div className="w-24 h-24 rounded-full bg-cyan-500/10 flex items-center justify-center mx-auto mb-8 relative">
-                         <div className="absolute inset-0 bg-cyan-500/10 rounded-full animate-ping opacity-30" />
-                         <Zap size={40} className="text-cyan-400 relative z-10 fill-cyan-400" />
-                    </div>
-                    <h4 className="text-2xl font-black text-white uppercase tracking-tighter mb-3">Protocol Dispatched</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed max-w-[280px] mx-auto mb-10">
-                        Please authorize the transaction in your UPI app. Once done, return here to finalize.
-                    </p>
-                    <div className="space-y-3">
-                        <button onClick={() => setStep("VERIFY")} className="w-full py-5 rounded-2xl bg-white text-black font-black uppercase tracking-[0.2em] text-[11px] hover:scale-[1.02] transition-all">I Have Completed Payment</button>
-                        <button onClick={() => setStep("SELECT")} className="w-full py-2 text-[9px] font-black text-slate-600 uppercase tracking-widest hover:text-white transition-colors">Wrong App? Go Back</button>
-                    </div>
-                </div>
-              )}
+              {/* Removed SELECT and INTENT_PROMPT steps to simplify flow to direct QR code. */}
 
               {step === "QR" && (
                 <div className="flex flex-col items-center py-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -285,8 +221,8 @@ export default function UPIDirectPayment({
                     <p className="text-[10px] text-slate-500 font-medium uppercase tracking-[0.2em]">Scan with any authorized UPI app</p>
                   </div>
                   <div className="w-full space-y-3">
-                    <button onClick={() => setStep("VERIFY")} className="w-full py-5 rounded-2xl bg-white text-black font-black uppercase tracking-[0.2em] text-[11px] shadow-2xl">Confirm Payment</button>
-                    <button onClick={() => setStep("SELECT")} className="w-full py-2 text-[9px] font-black text-slate-600 uppercase tracking-widest hover:text-white transition-colors text-center">Back</button>
+                    <button onClick={() => setStep("VERIFY")} className="w-full py-5 rounded-2xl bg-white text-black font-black uppercase tracking-[0.2em] text-[11px] shadow-2xl">Already Paid? Verify UTR</button>
+                    <button onClick={() => setIsOpen(false)} className="w-full py-2 text-[9px] font-black text-slate-600 uppercase tracking-widest hover:text-white transition-colors text-center">Cancel</button>
                   </div>
                 </div>
               )}
@@ -358,7 +294,7 @@ export default function UPIDirectPayment({
                     >
                       <Target size={18} /> Finalize Mission
                     </button>
-                    <button onClick={() => setStep("SELECT")} className="w-full py-2 text-[9px] font-black text-slate-600 uppercase tracking-widest text-center hover:text-white transition-colors">Abort Connection</button>
+                    <button onClick={() => setStep("QR")} className="w-full py-2 text-[9px] font-black text-slate-600 uppercase tracking-widest text-center hover:text-white transition-colors">Back to QR</button>
                   </div>
                 </div>
               )}
