@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { Activity, Shield, CheckCircle2 } from "lucide-react";
@@ -16,7 +16,7 @@ const SERVICES = [
   { id: "keyword_matrix", name: "Priority Keyword Matrix (Add-on)", price: "1.00", date: "Mar 14, 2026", inv: "#INV-2026-002" },
 ];
 
-export default function UserDashboard() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const [isLoading, setIsLoading] = useState(true);
@@ -217,5 +217,18 @@ export default function UserDashboard() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+export default function UserDashboard() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-50 dark:bg-[#050505] flex flex-col items-center justify-center">
+        <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-8" />
+        <p className="text-primary font-black uppercase tracking-widest text-sm animate-pulse">Initializing Tactical Display...</p>
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
   );
 }

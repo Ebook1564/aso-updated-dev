@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
@@ -8,7 +8,7 @@ import { Menu, X, Globe, ArrowRight, User, ShoppingBag, Download, LogOut } from 
 import { useSession, signOut } from "next-auth/react";
 import { checkFormStatus } from "@/app/get-started/actions";
 
-export default function Navbar() {
+function NavbarContent() {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -206,5 +206,13 @@ export default function Navbar() {
         </motion.nav>
       </div>
     </div>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <Suspense fallback={null}>
+      <NavbarContent />
+    </Suspense>
   );
 }
