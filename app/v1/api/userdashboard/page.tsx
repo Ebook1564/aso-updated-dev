@@ -3,7 +3,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
-import { Activity, Shield, CheckCircle2 } from "lucide-react";
+import { Activity, Shield, CheckCircle2, FileText, Download } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PayPalCheckout from "@/components/PayPalCheckout";
@@ -164,9 +164,11 @@ function DashboardContent() {
                                     window.open(delivery.keyword_upload, '_blank');
                                   }
                                 }}
-                                className="text-primary hover:text-primary/80 dark:hover:text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1"
+                                className="group inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-primary/90 to-primary text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 border border-primary/20"
                               >
-                                View Keywords
+                                <FileText size={14} className="group-hover:rotate-6 transition-transform opacity-90" />
+                                <span>View Keywords</span>
+                                <Download size={12} className="opacity-50 group-hover:opacity-100 group-hover:translate-y-0.5 transition-all ml-1" />
                               </button>
                             ) : (
                               <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest italic">

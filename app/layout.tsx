@@ -4,6 +4,7 @@ import "./globals.css";
 import ThemeToggle from "@/components/ThemeToggle";
 import Navbar from "@/components/Navbar";
 import { Providers } from "@/components/Providers";
+import NotificationPopup from "@/components/NotificationPopup";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -41,6 +42,7 @@ export default function RootLayout({
               {children}
           </main>
           <ThemeToggle />
+          <NotificationPopup />
         </Providers>
       </body>
     </html>

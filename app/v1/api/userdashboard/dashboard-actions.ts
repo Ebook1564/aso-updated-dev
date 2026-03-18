@@ -64,10 +64,13 @@ export async function getUserDashboardData(userIdOrLegacyId: string) {
             );
 
             // 3. Get delivered keywords from taskdeliverkeywordtable
-            // We match by email as that's the common denominator in the schema we saw
+            // We join with asopayments and use the same user resolution as the payments query
             const keywordsRes = await client.query(
-                "SELECT item_id, keyword_upload FROM taskdeliverkeywordtable WHERE useremail = $1",
-                [email]
+                `SELECT p.item_id, k.keyword_upload 
+                 FROM taskdeliverkeywordtable k
+                 JOIN asopayments p ON k.payment_id = p.id
+                 WHERE p.user_id = $1 OR p.email = $2`,
+                [userId, email]
             );
 
             const deliveredKeywords = keywordsRes.rows;
