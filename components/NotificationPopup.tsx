@@ -24,11 +24,11 @@ export default function NotificationPopup() {
       setIsVisible(false);
       setHasClosedManually(true);
       
-      // Aggressively resume the notification 20 seconds after they close it
+      // Aggressively resume the notification 15 seconds after they close it
       setTimeout(() => {
           setHasClosedManually(false);
           setIsVisible(true);
-      }, 20000);
+      }, 15000);
   };
 
   return (
@@ -60,19 +60,19 @@ export default function NotificationPopup() {
                 {/* Glow ring */}
                 <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent rounded-[inherit] pointer-events-none" />
 
-                <Link href="/get-started" className="w-full relative block overflow-hidden rounded-[1.5rem] md:rounded-[3rem] group/link bg-zinc-900 border border-white/5">
+                <Link href="/get-started" className="w-full relative block group/link">
                     {/* Dark gradient overlay at the bottom so elements stand out */}
-                    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10" />
+                    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10 rounded-b-[1.5rem] md:rounded-b-[3rem] overflow-hidden" />
                     
                     <img 
-                       src="/banner.jpg" 
-                       alt="Grow your app organically - Data Driven Optimization" 
+                       src="/stats-banner.png" 
+                       alt="App Download Stats" 
                        className="w-full h-auto object-cover transform group-hover/link:scale-105 transition-transform duration-700 pointer-events-none"
                        onError={(e) => {
                            // Fallback
                            const target = e.target as HTMLImageElement;
-                           // Only change src if it's currently banner.jpg, to prevent infinite loops
-                           if (target.src.includes('banner.jpg')) {
+                           // Only change src if it's currently stats-banner.png, to prevent infinite loops
+                           if (target.src.includes('stats-banner.png')) {
                                target.src = "/hero-bg.png"; 
                            }
                        }}
