@@ -43,7 +43,7 @@ function DashboardContent() {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-[#050505] transition-colors duration-500 flex flex-col items-center justify-center">
         <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-8" />
-        <p className="text-primary font-black uppercase tracking-widest text-sm animate-pulse">Initializing Tactical Display...</p>
+        <p className="text-primary font-black uppercase tracking-widest text-sm animate-pulse">Loading Dashboard Data...</p>
       </div>
     );
   }
@@ -71,7 +71,7 @@ function DashboardContent() {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.2em] mb-4"
               >
                 <Shield size={12} />
-                Clearance Level: Alpha
+                Verified Account
               </motion.div>
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -79,7 +79,7 @@ function DashboardContent() {
                 transition={{ delay: 0.1 }}
                 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none"
               >
-                Mission Control
+                Dashboard Overview
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -87,7 +87,7 @@ function DashboardContent() {
                 transition={{ delay: 0.2 }}
                 className="text-slate-400 font-medium mt-4 text-lg"
               >
-                Operative: <span className="text-white font-mono">{userName}</span>
+                Profile: <span className="text-white font-mono">{userName}</span>
               </motion.p>
             </div>
           </div>
@@ -177,18 +177,18 @@ function DashboardContent() {
                             );
                           })() : payment?.payment_status === 'PENDING_VERIFICATION' ? (
                             <div className="text-[10px] font-black text-cyan-500 uppercase tracking-widest bg-cyan-500/5 p-2 rounded-lg border border-cyan-500/10 text-center">
-                              Protocol Verifying...
+                              Payment Verifying...
                             </div>
                           ) : (
                             <div className="flex flex-col gap-2 min-w-[180px]">
                               {dashboardData?.user?.id ? (
                                 <div className="flex flex-col gap-3">
                                   <div className="space-y-1">
-                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Global Protocol</span>
+                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">International Payment</span>
                                     <PayPalCheckout amount={service.price} itemId={service.id} userId={dashboardData.user.id} onPaymentSuccess={refreshData} />
                                   </div>
                                   <div className="space-y-1">
-                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Domestic Protocol</span>
+                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Domestic Payment</span>
                                     <UPIDirectPayment
                                       amount={service.price}
                                       itemId={service.id}
@@ -227,7 +227,7 @@ export default function UserDashboard() {
     <Suspense fallback={
       <div className="min-h-screen bg-slate-50 dark:bg-[#050505] flex flex-col items-center justify-center">
         <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-8" />
-        <p className="text-primary font-black uppercase tracking-widest text-sm animate-pulse">Initializing Tactical Display...</p>
+        <p className="text-primary font-black uppercase tracking-widest text-sm animate-pulse">Loading Dashboard Data...</p>
       </div>
     }>
       <DashboardContent />

@@ -35,7 +35,7 @@ export default function GetStarted() {
                 const res = await checkFormStatus(session.user!.email!);
                 if (res.success && res.status === 1) {
                     const submissionId = res.id || "";
-                    console.log("TACTICAL: Operative already onboarded. Redirecting directly to Dashboard.");
+                    console.log("LOG: User already onboarded. Redirecting directly to Dashboard.");
                     window.location.href = `/v1/api/userdashboard/?id=${submissionId}`;
                 }
             };
@@ -62,10 +62,10 @@ export default function GetStarted() {
                 // Attach the ID to the DOM for the user to click when ready
                 (window as any).__tactical_dashboard_id = result.id;
             } else {
-                setErrorMessage(result.message || "Enrollment protocol failed.");
+                setErrorMessage(result.message || "Registration failed.");
             }
         } catch (error) {
-            setErrorMessage("Connection to tactical backend refused. Verify service status.");
+            setErrorMessage("Connection error. Please try again later.");
         } finally {
             setIsPending(false);
         }
@@ -158,7 +158,7 @@ export default function GetStarted() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
                             </span>
-                            ASO Keyword Dominance
+                            ASO Keyword Optimization
                         </div>
                         <h1 className="text-4xl md:text-7xl font-black text-foreground tracking-tighter leading-[1] md:leading-[0.95]">
                             Rank Higher. <br />
@@ -184,13 +184,13 @@ export default function GetStarted() {
                                     <h2 className="text-4xl font-black text-foreground tracking-tighter leading-tight uppercase flex flex-col items-start gap-3">
                                         <span className="opacity-80">Optimization</span>
                                         <span className="bg-primary/10 text-primary px-5 py-1.5 rounded-2xl italic text-2xl border border-primary/20 shadow-[0_10px_30px_rgba(var(--primary-rgb),0.1)]">
-                                            Protocol 01
+                                            Step 01
                                         </span>
                                     </h2>
                                 </div>
                                 <div className="h-1 w-20 bg-primary/30 rounded-full" />
                                 <p className="text-slate-500 font-medium text-lg leading-relaxed">
-                                    Initialize your specialized keyword audit. Our protocol identifies <span className="text-foreground font-bold italic">proprietary ranking opportunities</span> tailored specifically to your app's metadata ecosystem.
+                                    Start your keyword optimization process. Our system identifies <span className="text-foreground font-bold italic">proprietary ranking opportunities</span> tailored specifically to your app's metadata ecosystem.
                                 </p>
                             </div>
 
@@ -221,10 +221,10 @@ export default function GetStarted() {
                             >
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[10px] font-black text-primary uppercase tracking-widest">Protocol Status</span>
+                                        <span className="text-[10px] font-black text-primary uppercase tracking-widest">Service Status</span>
                                         <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
                                     </div>
-                                    <h4 className="text-2xl font-black text-background">Rapid Deployment</h4>
+                                    <h4 className="text-2xl font-black text-background">Fast Delivery</h4>
                                     <p className="text-xs text-background/60 font-medium">Keywords generated and delivered within 24 hours.</p>
                                 </div>
                                 <div className="w-14 h-14 rounded-2xl bg-background/10 border border-background/20 flex items-center justify-center text-primary group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-inner">
@@ -244,14 +244,14 @@ export default function GetStarted() {
                                     {/* Form Header & Progress */}
                                     <div className="mb-14 space-y-6">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-3xl font-black text-foreground tracking-tight">Initiate ASO Audit</h3>
+                                            <h3 className="text-3xl font-black text-foreground tracking-tight">Start ASO Audit</h3>
                                             <div className="flex gap-1.5">
                                                 {[1, 2, 3].map((step) => (
                                                     <div key={step} className={`w-8 h-1 rounded-full ${step === 1 ? "bg-primary" : "bg-foreground/10"}`} />
                                                 ))}
                                             </div>
                                         </div>
-                                        <p className="text-slate-500 font-medium text-base">Provide your app details to begin the keyword optimization protocol.</p>
+                                        <p className="text-slate-500 font-medium text-base">Provide your app details to begin the keyword optimization process.</p>
                                         
                                         {errorMessage && (
                                             <motion.div 
@@ -357,9 +357,9 @@ export default function GetStarted() {
                                         />
                                     </div>
                                     <div className="space-y-6">
-                                        <h2 className="text-5xl font-black tracking-tighter text-foreground leading-tight">Mission Confirmed.</h2>
+                                        <h2 className="text-5xl font-black tracking-tighter text-foreground leading-tight">Form Submitted Successfully.</h2>
                                         <p className="text-slate-500 font-medium text-xl leading-relaxed max-w-sm mx-auto">
-                                            Our analysts have been dispatched. Expect your initial ASO intelligence briefing within 24 hours.
+                                            Your request has been received. Our team will review your details and send you the initial ASO report within 24 hours.
                                         </p>
                                     </div>
                                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -370,10 +370,10 @@ export default function GetStarted() {
                                             }}
                                             className="px-8 py-4 rounded-2xl bg-foreground text-background font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform shadow-xl"
                                         >
-                                            Launch Dashboard
+                                            Go to Dashboard
                                         </button>
                                         <Link href="/" className="inline-flex items-center gap-2 text-foreground font-black uppercase tracking-[0.25em] text-xs hover:gap-6 transition-all group">
-                                            Return to Command <ArrowRight size={18} className="text-primary group-hover:translate-x-1" />
+                                            Return to Home <ArrowRight size={18} className="text-primary group-hover:translate-x-1" />
                                         </Link>
                                     </div>
                                 </motion.div>
@@ -444,7 +444,7 @@ function AsoInput({ name, label, icon: Icon, type = "text", placeholder, value, 
                             : "border-transparent hover:border-foreground/10"
                         }`}
                 />
-                {/* Tactical Focus Elements */}
+                {/* Focus Elements */}
                 <AnimatePresence>
                     {focused && (
                         <>

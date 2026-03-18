@@ -133,7 +133,7 @@ export default function UPIDirectPayment({
 
     } catch (error) {
       console.error("UPI_VERIFY_FAILURE:", error);
-      alert("SIGNAL_LOST: Submission failed.");
+      alert("Connection error: Submission failed.");
       setStep("VERIFY");
     }
   };
@@ -292,7 +292,7 @@ export default function UPIDirectPayment({
                       disabled={utr.length < 10}
                       className="w-full py-5 rounded-3xl bg-cyan-500 text-white font-black uppercase tracking-[0.3em] text-[11px] shadow-[0_20px_50px_rgba(6,182,212,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-3"
                     >
-                      <Target size={18} /> Finalize Mission
+                      <Target size={18} /> Complete Payment
                     </button>
                     <button onClick={() => setStep("QR")} className="w-full py-2 text-[9px] font-black text-slate-600 uppercase tracking-widest text-center hover:text-white transition-colors">Back to QR</button>
                   </div>
@@ -366,7 +366,7 @@ export default function UPIDirectPayment({
                             </div>
                         </div>
                         <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-[280px] mx-auto py-2">
-                            The transaction block has been <span className="text-green-500 font-black">Authorized</span> and logged into your Mission Control profile.
+                            The transaction has been <span className="text-green-500 font-black">Authorized</span> and logged into your Dashboard profile.
                         </p>
                     </motion.div>
 

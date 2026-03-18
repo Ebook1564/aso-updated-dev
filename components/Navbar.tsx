@@ -112,7 +112,7 @@ function NavbarContent() {
                       className="absolute right-0 mt-4 w-64 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-3xl shadow-2xl overflow-hidden py-2"
                     >
                       <div className="px-6 py-4 border-b border-slate-200 dark:border-white/5 mb-2">
-                        <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{session.user?.name || "Operative"}</p>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{session.user?.name || "User"}</p>
                         <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 truncate mt-1">{session.user?.email}</p>
                       </div>
 
