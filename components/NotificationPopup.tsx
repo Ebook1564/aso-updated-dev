@@ -61,9 +61,6 @@ export default function NotificationPopup() {
                 <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent rounded-[inherit] pointer-events-none" />
 
                 <Link href="/get-started" className="w-full relative block group/link">
-                    {/* Dark gradient overlay at the bottom so elements stand out */}
-                    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10 rounded-b-[1.5rem] md:rounded-b-[3rem] overflow-hidden" />
-                    
                     <img 
                        src="/stats-banner.png" 
                        alt="App Download Stats" 
@@ -77,26 +74,6 @@ export default function NotificationPopup() {
                            }
                        }}
                     />
-
-                    {/* Highly Visible Action Prompt overlaying the image */}
-                    <div className="absolute bottom-6 md:bottom-10 left-0 w-full flex flex-col items-center justify-center pointer-events-none z-20 space-y-4">
-                        <div className="px-6 md:px-8 py-3 bg-white text-black rounded-full font-black text-sm md:text-lg uppercase tracking-widest shadow-[0_10px_40px_rgba(0,0,0,0.5)] group-hover/link:bg-primary group-hover/link:text-white transition-colors duration-300 flex items-center gap-2">
-                           Claim $10 Protocol Now <Sparkles size={18} />
-                        </div>
-                        {/* Progress Bar Animation for the display cycle */}
-                        <motion.div 
-                           initial={{ width: 0 }}
-                           animate={{ width: "100%" }}
-                           transition={{ duration: 15, ease: "linear" }}
-                           className="h-1.5 bg-primary/80 w-[60%] rounded-full shadow-[0_0_15px_rgba(var(--primary-rgb),1)]"
-                        />
-                    </div>
-
-                    {/* Limited Time Offer Badge */}
-                    <div className="absolute top-6 lg:top-8 left-6 lg:left-8 z-20 px-4 md:px-5 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white text-[10px] md:text-xs font-black uppercase tracking-[0.2em] rounded-full shadow-[0_10px_30px_rgba(220,38,38,0.5)] border border-white/20 flex items-center gap-2.5 backdrop-blur-md">
-                      <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                      Limited Offer
-                    </div>
                 </Link>
             </div>
 
