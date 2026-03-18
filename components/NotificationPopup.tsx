@@ -60,7 +60,7 @@ export default function NotificationPopup() {
                 {/* Glow ring */}
                 <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent rounded-[inherit] pointer-events-none" />
 
-                <Link href="/get-started" className="w-full relative block group/link">
+                <Link href="/get-started" onClick={handleManualClose} className="w-full relative block group/link">
                     <img 
                        src="/stats-banner.png" 
                        alt="App Download Stats" 
