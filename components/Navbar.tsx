@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
@@ -8,7 +9,9 @@ import { Menu, X, Globe, ArrowRight, User, ShoppingBag, Download, LogOut } from 
 import { useSession, signOut } from "next-auth/react";
 import { checkFormStatus } from "@/app/get-started/actions";
 
-function NavbarContent() {
+const NavbarContent = dynamic(() => Promise.resolve(NavbarContentInner), { ssr: false });
+
+function NavbarContentInner() {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
