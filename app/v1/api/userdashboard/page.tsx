@@ -97,12 +97,7 @@ function DashboardContent() {
             transition={{ delay: 0.6 }}
             className="mt-8 bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-3xl p-6 md:p-8 shadow-sm dark:shadow-none backdrop-blur-xl relative overflow-hidden transition-colors duration-500"
           >
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
-              <h2 className="text-2xl font-black text-slate-900 dark:text-white/90 tracking-tight transition-colors duration-500">Order history</h2>
-              <button className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-colors">
-                <Activity size={14} /> Refund requests
-              </button>
-            </div>
+           
 
             <div className="w-full overflow-x-auto">
               <table className="w-full text-left border-collapse">
@@ -112,7 +107,6 @@ function DashboardContent() {
                     <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap">Description</th>
                     <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap">Price</th>
                     <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap">Status</th>
-                    <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap">Invoice</th>
                     <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap">Action</th>
                   </tr>
                 </thead>
@@ -125,7 +119,7 @@ function DashboardContent() {
                       <tr key={service.id} className="border-b border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors duration-300 group">
                         <td className="py-5 px-2 text-sm font-medium text-slate-700 dark:text-slate-300 whitespace-nowrap">{service.date}</td>
                         <td className="py-5 px-2 text-sm font-bold text-slate-900 dark:text-white max-w-[200px] truncate">{service.name}</td>
-                        <td className="py-5 px-2 text-sm font-mono text-slate-700 dark:text-slate-300 transition-colors duration-500">${service.price}</td>
+                        <td className="py-5 px-2 text-sm font-mono text-slate-700 dark:text-slate-300 transition-colors duration-500">{service.price}</td>
                         <td className="py-5 px-2">
                           {isPaid ? (
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 text-green-600 dark:text-green-500 text-[10px] font-black uppercase tracking-wider">
@@ -166,7 +160,7 @@ function DashboardContent() {
                                 className="group inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-primary/90 to-primary text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 border border-primary/20"
                               >
                                 <FileText size={14} className="group-hover:rotate-6 transition-transform opacity-90" />
-                                <span>View Keywords</span>
+                                <span>Download</span>
                                 <Download size={12} className="opacity-50 group-hover:opacity-100 group-hover:translate-y-0.5 transition-all ml-1" />
                               </button>
                             ) : (
