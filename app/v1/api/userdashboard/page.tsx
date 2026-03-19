@@ -12,8 +12,7 @@ import PayUCheckout from "@/components/PayUCheckout";
 import { getUserDashboardData } from "./dashboard-actions";
 
 const SERVICES = [
-  { id: "audit_protocol", name: "OPTIAPP Initial Audit Protocol", price: "1.00", date: "Mar 16, 2026", inv: "#INV-2026-001" },
-  { id: "keyword_matrix", name: "Priority Keyword Matrix (Add-on)", price: "1.00", date: "Mar 14, 2026", inv: "#INV-2026-002" },
+  { id: "keyword_matrix", name: "Priority Keyword Matrix (Add-on)", price: "933.32", date: "Mar 14, 2026", inv: "#INV-2026-002" },
 ];
 
 function DashboardContent() {
