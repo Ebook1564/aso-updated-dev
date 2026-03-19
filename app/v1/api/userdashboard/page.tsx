@@ -86,7 +86,7 @@ function DashboardContent() {
                 transition={{ delay: 0.2 }}
                 className="text-slate-400 font-medium mt-4 text-lg"
               >
-                Profile: <span className="text-white font-mono">{userName}</span>
+                Profile: <span className="md:text-white text-black font-mono">{userName}</span>
               </motion.p>
             </div>
           </div>
