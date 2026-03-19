@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, Suspense } from "react";
 import { motion } from "framer-motion";
-import { useSearchParams } from "next/navigation";
 import { Activity, Shield, CheckCircle2, FileText, Download } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -16,12 +15,21 @@ const SERVICES = [
 ];
 
 function DashboardContent() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const [urlId, setUrlId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState<any>(null);
 
-  async function refreshData() {
+  // Manual URL parsing to avoid useSearchParams build-time bailout
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    if (id) {
+       console.log("DASHBOARD: Detected ID from URL:", id);
+       setUrlId(id);
+    }
+  }, []);
+
+  async function refreshData(id: string) {
     console.log("TACTICAL FRONTEND: refreshing data for ID:", id);
     if (id) {
       const data = await getUserDashboardData(id);
@@ -32,17 +40,27 @@ function DashboardContent() {
 
   useEffect(() => {
     async function init() {
-      await refreshData();
-      setIsLoading(false);
+      if (urlId) {
+        await refreshData(urlId);
+        setIsLoading(false);
+      } else {
+        // If no ID yet (during hydration or missing param), we still wait a bit
+        const timer = setTimeout(() => {
+           setIsLoading(false);
+        }, 1000);
+        return () => clearTimeout(timer);
+      }
     }
     init();
-  }, [id]);
+  }, [urlId]);
 
-  if (isLoading) {
+  if (isLoading || !urlId) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-[#050505] transition-colors duration-500 flex flex-col items-center justify-center">
         <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-8" />
-        <p className="text-primary font-black uppercase tracking-widest text-sm animate-pulse">Loading Dashboard Data...</p>
+        <p className="text-primary font-black uppercase tracking-widest text-sm animate-pulse">
+           { !urlId ? "Authenticating Session..." : "Loading Dashboard Data..." }
+        </p>
       </div>
     );
   }
@@ -187,7 +205,7 @@ function DashboardContent() {
                                 <div className="flex flex-col gap-3">
                                   <div className="space-y-1">
                                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">International Payment</span>
-                                    <PayPalCheckout amount={service.price} itemId={service.id} userId={dashboardData.user.id} onPaymentSuccess={refreshData} />
+                                    <PayPalCheckout amount={service.price} itemId={service.id} userId={dashboardData.user.id} onPaymentSuccess={() => refreshData(urlId)} />
                                   </div>
                                   <div className="space-y-1">
                                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Domestic Payment</span>
@@ -197,7 +215,7 @@ function DashboardContent() {
                                       userId={dashboardData.user.id}
                                       userEmail={dashboardData.user.email}
                                       userName={dashboardData.user.username}
-                                      onPaymentSuccess={refreshData}
+                                      onPaymentSuccess={() => refreshData(urlId)}
                                     />
                                   </div>
                                 </div>

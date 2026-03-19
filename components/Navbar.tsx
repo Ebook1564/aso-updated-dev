@@ -1,26 +1,32 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSearchParams } from "next/navigation";
 import { Menu, X, Globe, ArrowRight, User, ShoppingBag, Download, LogOut } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { checkFormStatus } from "@/app/get-started/actions";
 
-const NavbarContent = dynamic(() => Promise.resolve(NavbarContentInner), { ssr: false });
-
-function NavbarContentInner() {
+function NavbarContent() {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { data: session } = useSession();
-  const searchParams = useSearchParams();
   const [numericId, setNumericId] = useState<string | null>(null);
+  const [urlId, setUrlId] = useState<string | null>(null);
+
+  // Manual URL parsing to avoid useSearchParams build-time bailout
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    if (id) {
+       console.log("NAVBAR: Detected ID from URL:", id);
+       setUrlId(id);
+    }
+  }, []);
 
   // Use the ID from the URL as a fallback if numericId isn't fetched yet
-  const effectiveId = numericId || searchParams?.get("id");
+  const effectiveId = numericId || urlId;
 
   useEffect(() => {
     async function fetchNumericId() {
@@ -38,11 +44,10 @@ function NavbarContentInner() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Use a slightly higher threshold for a more natural transition
       setScrolled(window.scrollY > 60);
     };
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -59,12 +64,10 @@ function NavbarContentInner() {
               : "bg-transparent py-4 md:py-6 px-8 md:px-12 rounded-none"
             }`}
         >
-          {/* Glow Background for Island */}
           {scrolled && (
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-secondary/5 pointer-events-none opacity-50 rounded-[inherit]" />
           )}
 
-          {/* Logo Section */}
           <Link href="/" className="group flex items-center gap-2.5 relative z-[110]">
             <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center rotate-12 group-hover:rotate-0 transition-all duration-700 shadow-[0_0_15px_rgba(6,182,212,0.2)] text-white">
               <Globe size={16} strokeWidth={3} />
@@ -74,7 +77,6 @@ function NavbarContentInner() {
             </span>
           </Link>
 
-          {/* Navigation Links - Desktop */}
           <div className="hidden lg:flex items-center gap-8 relative z-[110]">
             {["Features", "Intelligence", "Process", "Pricing"].map((item) => (
               <Link
@@ -90,7 +92,6 @@ function NavbarContentInner() {
             ))}
           </div>
 
-          {/* Action Buttons */}
           <div className="flex items-center gap-4 md:gap-6 relative z-[110]">
             {session ? (
               <div className="relative">
@@ -120,7 +121,6 @@ function NavbarContentInner() {
                       </div>
 
                       <div className="px-2">
-                        {/* Profile Snapshot and Order History now use the Numeric ID from asousertable */}
                         <Link href={effectiveId ? `/v1/api/userdashboard/?id=${effectiveId}` : "/v1/api/userdashboard"} onClick={() => setIsProfileOpen(false)}>
                           <div className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group cursor-pointer text-slate-700 dark:text-slate-300">
                             <User size={16} className="text-primary group-hover:scale-110 transition-transform" />
@@ -174,7 +174,6 @@ function NavbarContentInner() {
             </button>
           </div>
 
-          {/* Mobile Menu Overlay */}
           <AnimatePresence>
             {isOpen && (
               <motion.div
