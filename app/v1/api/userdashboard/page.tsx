@@ -148,13 +148,22 @@ function DashboardContent() {
                             return hasDelivery ? (
                               <button 
                                 onClick={() => {
+                                  const filename = `Keywords_${payment.transactionid || service.id}.pdf`;
                                   if (delivery.keyword_upload.startsWith('data:')) {
-                                    // Handle base64
-                                    const win = window.open();
-                                    win?.document.write(`<iframe src="${delivery.keyword_upload}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>`);
+                                    const link = document.createElement('a');
+                                    link.href = delivery.keyword_upload;
+                                    link.download = filename;
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
                                   } else {
-                                    // Handle URL
-                                    window.open(delivery.keyword_upload, '_blank');
+                                    const link = document.createElement('a');
+                                    link.href = delivery.keyword_upload;
+                                    link.download = filename;
+                                    link.target = '_blank';
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
                                   }
                                 }}
                                 className="group inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-primary/90 to-primary text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 border border-primary/20"
